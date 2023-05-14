@@ -8,7 +8,7 @@ import static com.bilibili.juc.n2.util.Sleeper.sleep;
  * 死锁
  * @author szh
  */
-@Slf4j(topic = "c.TestDeadLock")
+@Slf4j(topic = "c.TestDeadLock2")
 public class TestDeadLock {
     public static void main(String[] args) {
         test1();
