@@ -2,6 +2,8 @@ package com.bilibili.juc.test;
 
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.concurrent.locks.LockSupport;
+
 /**
  * wait notify 解决固定运行顺序问题
  * Created by szh on 2023-05-14
@@ -18,7 +20,7 @@ public class Test25 {
      */
     static boolean t2runned = false;
 
-    public static void main(String[] args) {
+    private static void method1() {
         Thread t1 = new Thread(() -> {
             synchronized (lock) {
                 while (!t2runned) { // 加 while 循环方式虚假唤醒
@@ -45,5 +47,25 @@ public class Test25 {
 
         t2.start();
 
+    }
+
+    private static void method2() {
+        Thread t1 = new Thread(() -> {
+            LockSupport.park();
+            log.debug("1");
+        }, "t1");
+
+        t1.start();
+
+        Thread t2 = new Thread(() -> {
+            LockSupport.unpark(t1);
+            log.debug("2");
+        }, "t2");
+
+        t2.start();
+    }
+
+    public static void main(String[] args) {
+        method1();
     }
 }
