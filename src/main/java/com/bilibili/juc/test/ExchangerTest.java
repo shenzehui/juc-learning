@@ -1,9 +1,6 @@
 package com.bilibili.juc.test;
 
-import java.util.concurrent.Exchanger;
-import java.util.concurrent.Executor;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 
 /**
  * Exchanger 进行线程数据交换
@@ -36,6 +33,7 @@ public class ExchangerTest {
             public void run() {
                 try {
                     String B = "银行流水B"; // B 录入银行流水数据
+//                    exgr.exchange(B, 1000, TimeUnit.SECONDS);  // 避免一直等待阻塞
                     String A = exgr.exchange(B);
                     System.out.println("B 交换后得到的数据:" + A);
                     System.out.println("A和B数据是否一致：" + A.equals(B) + "，A 录入的是：" + A + "，B 录入的是:" + B);
